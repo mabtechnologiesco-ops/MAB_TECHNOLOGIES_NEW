@@ -4,6 +4,7 @@ import { Services } from "@/components/Services";
 import { Pricing } from "@/components/Pricing";
 import { Maintenance } from "@/components/Maintenance";
 import { Portfolio } from "@/components/Portfolio";
+import { TrustedBy } from "@/components/TrustedBy";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
@@ -31,6 +32,7 @@ function AppContent() {
         <Pricing />
         <Maintenance />
         <Portfolio />
+        <TrustedBy />
         <About />
         <Contact />
       </main>

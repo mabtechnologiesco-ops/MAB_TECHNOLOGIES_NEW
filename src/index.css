@@ -82,11 +82,23 @@
     animation: pulseGlow 2.4s ease-in-out infinite;
   }
 
+  @keyframes businessSlide {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-100%); }
+  }
+  .animate-business-slide {
+    animation: businessSlide 14s linear infinite;
+  }
   @keyframes floatY {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
   }
   .animate-float {
     animation: floatY 6s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-business-slide {
+      animation: none;
+    }
   }
 }

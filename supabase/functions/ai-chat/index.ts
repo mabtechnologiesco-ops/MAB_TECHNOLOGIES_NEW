@@ -202,6 +202,12 @@ const BUSINESS_CONTEXT = {
       description: "Clean corporate website concept for professional service firms.",
       type: "Concept",
     },
+    {
+      name: "Magic Fingers Barbing Shop",
+      category: "Business Websites",
+      description: "A barbing shop website showcasing services and brand.",
+      type: "Live Website",
+    },
   ],
   process: ["Discover", "Design", "Build", "Launch & Support"],
 };

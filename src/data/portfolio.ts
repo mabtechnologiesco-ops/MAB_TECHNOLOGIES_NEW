@@ -193,4 +193,15 @@ export const projects: Project[] = [
     features: ["Property listings", "Luxury homes", "Investment opportunities", "Property management"],
     demoUrl: "https://mab-technologies-web-11.onrender.com",
   },
+  {
+    id: "magic-fingers-barbing-shop",
+    name: "Magic Fingers Barbing Shop",
+    category: "Business Websites",
+    description:
+      "A barbing shop website for Magic Fingers Barbing Shop, designed to showcase the shop's services, present its brand, and make it easy for customers to discover the shop and get in touch.",
+    type: "Live Website",
+    thumbnail: "/Magic Fingers Barbing Shop Website .jpeg",
+    features: ["Service menu", "Brand presentation", "Contact & booking", "Responsive layout"],
+    demoUrl: "https://magic-fingers-barbingshop.onrender.com",
+  },
 ];
