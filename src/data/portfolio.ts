@@ -7,6 +7,7 @@ export interface Project {
   thumbnail: string;
   features: string[];
   demoUrl?: string;
+  demoLabel?: string;
 }
 
 export type ProjectCategory =
@@ -203,5 +204,6 @@ export const projects: Project[] = [
     thumbnail: "/Magic Fingers Barbing Shop Website .jpeg",
     features: ["Service menu", "Brand presentation", "Contact & booking", "Responsive layout"],
     demoUrl: "https://magic-fingers-barbingshop.onrender.com",
+    demoLabel: "View Website",
   },
 ];

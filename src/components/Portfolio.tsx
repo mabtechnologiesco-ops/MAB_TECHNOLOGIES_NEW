@@ -155,7 +155,7 @@ function ProjectCard({
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-4 py-2 text-xs font-semibold text-white transition-transform hover:scale-[1.03]"
             >
-              View Live Demo
+              {project.demoLabel ?? "View Live Demo"}
               <ExternalLink size={13} />
             </a>
           ) : (
