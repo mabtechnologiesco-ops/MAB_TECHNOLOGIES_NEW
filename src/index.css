@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --navy: #061A38;
+    --blue: #073D78;
+    --electric: #078BFF;
+    --cyan: #31C8FF;
+    --light-bg: #F5F8FC;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--electric);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .text-gradient-blue {
+    background: linear-gradient(90deg, #078BFF 0%, #31C8FF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .bg-navy-gradient {
+    background: linear-gradient(135deg, #061A38 0%, #073D78 100%);
+  }
+
+  .bg-hero-radial {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(7, 139, 255, 0.18), transparent 60%),
+      radial-gradient(800px 500px at 10% 20%, rgba(49, 200, 255, 0.12), transparent 55%),
+      linear-gradient(160deg, #061A38 0%, #073D78 60%, #061A38 100%);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 0 1px rgba(7, 139, 255, 0.25), 0 20px 60px -20px rgba(7, 139, 255, 0.45);
+  }
+
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px -24px rgba(6, 26, 56, 0.35);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(7, 139, 255, 0.35);
+    border-radius: 9999px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(7, 139, 255, 0.4); }
+    50% { box-shadow: 0 0 0 12px rgba(7, 139, 255, 0); }
+  }
+  .animate-pulse-glow {
+    animation: pulseGlow 2.4s ease-in-out infinite;
+  }
+
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .animate-float {
+    animation: floatY 6s ease-in-out infinite;
+  }
+}
