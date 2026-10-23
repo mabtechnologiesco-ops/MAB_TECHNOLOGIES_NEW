@@ -201,7 +201,7 @@ export const projects: Project[] = [
     description:
       "A barbing shop website for Magic Fingers Barbing Shop, designed to showcase the shop's services, present its brand, and make it easy for customers to discover the shop and get in touch.",
     type: "Live Website",
-    thumbnail: "/Magic Fingers Barbing Shop Website .jpeg",
+    thumbnail: "/magic-fingers-barbing-shop-website.jpeg",
     features: ["Service menu", "Brand presentation", "Contact & booking", "Responsive layout"],
     demoUrl: "https://magic-fingers-barbingshop.onrender.com",
     demoLabel: "View Website",
