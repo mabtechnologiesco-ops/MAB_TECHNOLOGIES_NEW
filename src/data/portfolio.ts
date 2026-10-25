@@ -110,8 +110,7 @@ export const projects: Project[] = [
     description:
       "Fragrance brand e-commerce experience with a refined product showcase and brand storytelling layout.",
     type: "Live Website",
-    thumbnail:
-      "https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    thumbnail: "/Perfume - E-Commerce image.jpeg",
     features: ["Product showcase", "Brand storytelling", "Responsive layout"],
     demoUrl: "https://mab-technologies-web-1.onrender.com",
   },
@@ -122,8 +121,7 @@ export const projects: Project[] = [
     description:
       "Online ordering platform for restaurants featuring a browsable menu, cart, and streamlined order flow.",
     type: "Web Application",
-    thumbnail:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    thumbnail: "/Resturant Ordering Platform Image.jpeg",
     features: ["Menu browsing", "Cart & checkout", "Order management"],
     demoUrl: "https://mab-technologies-web-app-1.onrender.com",
   },
@@ -134,8 +132,7 @@ export const projects: Project[] = [
     description:
       "Professional service website concept for a cleaning agency, designed to present services and make enquiries simple.",
     type: "Live Website",
-    thumbnail:
-      "https://images.pexels.com/photos/4239091/pexels-photo-4239091.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    thumbnail: "/Cleaning Agency Website Image.jpeg",
     features: ["Service presentation", "Enquiry flow", "Responsive layout"],
     demoUrl: "https://mab-technologies-web-9.onrender.com",
   },
@@ -146,9 +143,9 @@ export const projects: Project[] = [
     description:
       "Concept for an AI support assistant that answers customer questions from a business knowledge base and qualifies leads.",
     type: "Concept",
-    thumbnail:
-      "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    thumbnail: "/AI Customer Support Agent image.jpeg",
     features: ["Knowledge-base answers", "Lead qualification", "Handoff to human"],
+    demoUrl: "https://ai-agent-demo-fm8p.onrender.com",
   },
   {
     id: "3d-interactive",
