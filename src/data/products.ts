@@ -115,6 +115,7 @@ export const products: Product[] = [
       "Your Cash. Your Records. Your Control. Eazy Check brings smarter cash counting, organized records, and flexible data access together in one convenient application. Whether you are counting money for your business or managing cash every day, Eazy Check helps make the process simpler and more efficient.",
     closingCta: "Discover Eazy Check",
     images: [
+      "/Modern Dark Counter App Interface.png",
       "/Eazy Check Green Login Flow.png",
       "/Neon Eazy Check App Dark Theme.png",
     ],

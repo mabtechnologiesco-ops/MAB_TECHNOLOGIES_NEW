@@ -67,37 +67,47 @@ function ProductCard({ product }: { product: Product }) {
           </span>
         </div>
 
-        <div className="relative mt-6 flex justify-center">
-          {product.images.length > 0 ? (
+        <div className="relative mt-6 flex flex-col items-center gap-4">
+          <div className="relative mx-auto w-48 sm:w-56">
+            <div className="rounded-[2.4rem] border-4 border-white/20 bg-[#061A38] p-2 shadow-2xl">
+              <div className="overflow-hidden rounded-[2rem] bg-[#061A38]">
+                {product.images.length > 0 ? (
+                  <img
+                    src={product.images[0]}
+                    alt={`${product.name} app screen`}
+                    loading="lazy"
+                    className="h-72 w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-72 flex-col items-center justify-center text-center">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-[#31C8FF] overflow-hidden">
+                      {product.logo ? (
+                        <img src={product.logo} alt={`${product.name} logo`} className="h-full w-full object-contain" />
+                      ) : Icon ? (
+                        <Icon size={28} />
+                      ) : (
+                        <Sparkles size={28} />
+                      )}
+                    </div>
+                    <p className="mt-4 px-4 text-xs font-medium text-white/60">Screenshots coming soon</p>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="pointer-events-none absolute left-1/2 top-3 h-5 w-20 -translate-x-1/2 rounded-full bg-[#061A38]" />
+          </div>
+
+          {product.images.length > 1 && (
             <div className="flex gap-3 overflow-x-auto pb-2">
-              {product.images.map((src, i) => (
+              {product.images.slice(1).map((src, i) => (
                 <img
                   key={i}
                   src={src}
-                  alt={`${product.name} screenshot ${i + 1}`}
+                  alt={`${product.name} screenshot ${i + 2}`}
                   loading="lazy"
-                  className="h-48 w-auto rounded-2xl border border-white/10 object-cover shadow-lg"
+                  className="h-32 w-auto rounded-2xl border border-white/10 object-cover shadow-lg"
                 />
               ))}
-            </div>
-          ) : (
-            <div className="relative mx-auto w-44">
-              <div className="rounded-[2rem] border-4 border-white/20 bg-[#061A38] p-2 shadow-2xl">
-                <div className="flex h-64 flex-col items-center justify-center rounded-[1.6rem] bg-gradient-to-b from-[#073D78] to-[#061A38] text-center">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-[#31C8FF] overflow-hidden">
-                    {product.logo ? (
-                      <img src={product.logo} alt={`${product.name} logo`} className="h-full w-full object-contain" />
-                    ) : Icon ? (
-                      <Icon size={28} />
-                    ) : (
-                      <Sparkles size={28} />
-                    )}
-                  </div>
-                  <p className="mt-4 px-4 text-xs font-medium text-white/60">
-                    Screenshots coming soon
-                  </p>
-                </div>
-              </div>
             </div>
           )}
         </div>

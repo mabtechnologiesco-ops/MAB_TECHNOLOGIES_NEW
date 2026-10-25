@@ -134,16 +134,18 @@ export function ProductDetail({ slug }: { slug: string }) {
 
             <div className="flex justify-center">
               {product.images.length > 0 ? (
-                <div className="flex flex-wrap justify-center gap-4">
-                  {product.images.slice(0, 2).map((src, i) => (
-                    <img
-                      key={i}
-                      src={src}
-                      alt={`${product.name} screenshot ${i + 1}`}
-                      loading="lazy"
-                      className="h-72 w-auto rounded-3xl border border-white/10 object-cover shadow-2xl"
-                    />
-                  ))}
+                <div className="relative mx-auto w-64 sm:w-72">
+                  <div className="rounded-[2.6rem] border-4 border-white/20 bg-[#061A38] p-2 shadow-2xl">
+                    <div className="overflow-hidden rounded-[2.2rem] bg-[#061A38]">
+                      <img
+                        src={product.images[0]}
+                        alt={`${product.name} app screen`}
+                        loading="lazy"
+                        className="h-[520px] w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="pointer-events-none absolute left-1/2 top-3 h-5 w-24 -translate-x-1/2 rounded-full bg-[#061A38]" />
                 </div>
               ) : (
                 <div className="w-full max-w-sm rounded-[2rem] border-4 border-white/20 bg-[#061A38] p-2 shadow-2xl">
