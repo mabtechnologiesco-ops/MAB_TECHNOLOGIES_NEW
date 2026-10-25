@@ -122,23 +122,20 @@ export function ProductDetail({ slug }: { slug: string }) {
               <p className="mt-5 text-base leading-relaxed text-white/75">{product.shortDescription ?? product.description}</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 {product.ctaLabel && (
-                  <a href="/#contact" className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#078BFF]/30 transition-transform hover:scale-[1.03] active:scale-95">
+                  <button type="button" onClick={() => alert("Download is not available yet. Coming soon!")} className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#078BFF]/30 transition-transform hover:scale-[1.03] active:scale-95">
                     {product.closingCta ?? product.ctaLabel} <ArrowRight size={15} />
-                  </a>
+                  </button>
                 )}
-                <a href="/" className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
-                  <ArrowLeft size={15} /> Back to home
-                </a>
               </div>
             </div>
 
             <div className="flex justify-center">
-              {product.images.length > 0 ? (
+              {product.phoneImage || product.images.length > 0 ? (
                 <div className="relative mx-auto w-64 sm:w-72">
                   <div className="rounded-[2.6rem] border-4 border-white/20 bg-[#061A38] p-2 shadow-2xl">
                     <div className="overflow-hidden rounded-[2.2rem] bg-[#061A38]">
                       <img
-                        src={product.images[0]}
+                        src={product.phoneImage ?? product.images[0]}
                         alt={`${product.name} app screen`}
                         loading="lazy"
                         className="h-[520px] w-full object-cover"
@@ -306,12 +303,9 @@ export function ProductDetail({ slug }: { slug: string }) {
             <p className="mt-6 text-base leading-relaxed text-white/75">{product.closing}</p>
           )}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a href="/#contact" className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#078BFF]/30 transition-transform hover:scale-[1.03] active:scale-95">
+            <button type="button" onClick={() => alert("Download is not available yet. Coming soon!")} className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#078BFF]/30 transition-transform hover:scale-[1.03] active:scale-95">
               {product.closingCta ?? "Get Started"} <ArrowRight size={15} />
-            </a>
-            <a href="/" className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
-              <ArrowLeft size={15} /> Back to home
-            </a>
+            </button>
           </div>
         </div>
       </section>

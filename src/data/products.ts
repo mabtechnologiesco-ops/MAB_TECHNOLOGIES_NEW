@@ -28,6 +28,8 @@ export interface Product {
   closing?: string;
   closingCta?: string;
   images: string[];
+  phoneImage?: string;
+  cardImages?: string[];
   logo?: string;
   icon?: LucideIcon;
   status: ProductStatus;
@@ -113,10 +115,16 @@ export const products: Product[] = [
     ],
     closing:
       "Your Cash. Your Records. Your Control. Eazy Check brings smarter cash counting, organized records, and flexible data access together in one convenient application. Whether you are counting money for your business or managing cash every day, Eazy Check helps make the process simpler and more efficient.",
-    closingCta: "Discover Eazy Check",
-    images: [
+    closingCta: "Download",
+    phoneImage: "/Modern Dark Counter App Interface.png",
+    cardImages: [
       "/Neon Eazy Check App Dark Theme - Copy.png",
       "/Eazy Check Green Login Flow - Copy.png",
+    ],
+    images: [
+      "/Signin & Signup Page.png",
+      "/Report Section.png",
+      "/Setting Section.png",
     ],
     logo: "/Glossy Green Calculator Finance Icon.png",
     icon: Banknote,
