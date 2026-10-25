@@ -3,7 +3,7 @@ export interface Project {
   name: string;
   category: ProjectCategory;
   description: string;
-  type: "Live Website" | "Web Application" | "Concept";
+  type: "Live Website" | "Web Application" | "Concept" | "Live Showroom";
   thumbnail: string;
   features: string[];
   demoUrl?: string;
@@ -142,8 +142,7 @@ export const projects: Project[] = [
     category: "AI & Automation",
     description:
       "Concept for an AI support assistant that answers customer questions from a business knowledge base and qualifies leads.",
-    type: "Concept",
-    thumbnail: "/AI Customer Support Agent image.jpeg",
+    type: "Live Showroom",
     features: ["Knowledge-base answers", "Lead qualification", "Handoff to human"],
     demoUrl: "https://ai-agent-demo-fm8p.onrender.com",
   },
