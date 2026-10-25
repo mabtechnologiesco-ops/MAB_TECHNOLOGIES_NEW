@@ -143,6 +143,7 @@ export const projects: Project[] = [
     description:
       "Concept for an AI support assistant that answers customer questions from a business knowledge base and qualifies leads.",
     type: "Live Showroom",
+    thumbnail: "/AI Customer Support Agent image.jpeg",
     features: ["Knowledge-base answers", "Lead qualification", "Handoff to human"],
     demoUrl: "https://ai-agent-demo-fm8p.onrender.com",
   },
