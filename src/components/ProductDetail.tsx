@@ -1,5 +1,25 @@
-import { useEffect } from "react";
-import { ArrowLeft, ArrowRight, CheckCircle2, Smartphone } from "lucide-react";
+﻿import { useEffect } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Smartphone,
+  ScanLine,
+  WifiOff,
+  Cloud,
+  History,
+  SlidersHorizontal,
+  KeyRound,
+  ArrowRightLeft,
+  Printer,
+  Zap,
+  RefreshCw,
+  Building2,
+  UserCheck,
+  Briefcase,
+  Wallet,
+  Users,
+} from "lucide-react";
 import { getProductBySlug, type Product } from "@/data/products";
 import { SectionHeading } from "./SectionHeading";
 
@@ -9,6 +29,30 @@ const statusStyles: Record<Product["status"], string> = {
   Available: "bg-emerald-100 text-emerald-700 border-emerald-200",
   Beta: "bg-sky-100 text-sky-700 border-sky-200",
 };
+
+const sectionIcons: Record<string, typeof ScanLine> = {
+  "Smart Automatic Cash Counting": ScanLine,
+  "Works Online and Offline": WifiOff,
+  "Automatic Saving and Synchronization": Cloud,
+  "Complete Counting History": History,
+  "Flexible Note Management": SlidersHorizontal,
+  "Account-Based Data Access": KeyRound,
+  "Export and Import Your Data": ArrowRightLeft,
+  "Print Your Calculations for Proof and Recordkeeping": Printer,
+};
+
+const benefitIcons: Record<string, typeof Zap> = {
+  "Count Faster": Zap,
+  "Work Anywhere": WifiOff,
+  "Keep Your Records": History,
+  "Stay Synchronized": RefreshCw,
+  "Adjust with Ease": SlidersHorizontal,
+  "Access Your Account": KeyRound,
+  "Export and Import": ArrowRightLeft,
+  "Print with Confidence": Printer,
+};
+
+const audienceIcons = [Building2, UserCheck, Briefcase, Wallet, Users];
 
 export function ProductDetail({ slug }: { slug: string }) {
   const product = getProductBySlug(slug);
@@ -75,49 +119,45 @@ export function ProductDetail({ slug }: { slug: string }) {
                 </div>
               </div>
               <p className="mt-4 text-lg font-medium text-[#31C8FF]">{product.tagline}</p>
-              <p className="mt-5 text-base leading-relaxed text-white/70">{product.description}</p>
-
+              <p className="mt-5 text-base leading-relaxed text-white/75">{product.shortDescription ?? product.description}</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                {product.downloadUrl && (
-                  <a href={product.downloadUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-6 py-3 text-sm font-semibold text-white shadow-lg transition-transform hover:scale-[1.03]">
-                    Download App <ArrowRight size={15} />
+                {product.ctaLabel && (
+                  <a href="/#contact" className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#078BFF]/30 transition-transform hover:scale-[1.03] active:scale-95">
+                    {product.closingCta ?? product.ctaLabel} <ArrowRight size={15} />
                   </a>
                 )}
-                {product.demoUrl && (
-                  <a href={product.demoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
-                    Try Demo
-                  </a>
-                )}
-                {!product.downloadUrl && !product.demoUrl && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-white/60">
-                    {product.status === "In Development" ? "Currently in development" : "Available soon"}
-                  </span>
-                )}
+                <a href="/" className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+                  <ArrowLeft size={15} /> Back to home
+                </a>
               </div>
             </div>
 
             <div className="flex justify-center">
               {product.images.length > 0 ? (
                 <div className="flex flex-wrap justify-center gap-4">
-                  {product.images.map((src, i) => (
-                    <img key={i} src={src} alt={`${product.name} screenshot ${i + 1}`} className="h-64 w-auto rounded-2xl border border-white/10 object-cover shadow-2xl" />
+                  {product.images.slice(0, 2).map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt={`${product.name} screenshot ${i + 1}`}
+                      loading="lazy"
+                      className="h-72 w-auto rounded-3xl border border-white/10 object-cover shadow-2xl"
+                    />
                   ))}
                 </div>
               ) : (
-                <div className="relative mx-auto w-56">
-                  <div className="rounded-[2.4rem] border-4 border-white/20 bg-[#061A38] p-2 shadow-2xl">
-                    <div className="flex h-80 flex-col items-center justify-center rounded-[2rem] bg-gradient-to-b from-[#073D78] to-[#061A38] text-center">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-[#31C8FF] overflow-hidden">
-                        {product.logo ? (
-                          <img src={product.logo} alt={`${product.name} logo`} className="h-full w-full object-contain" />
-                        ) : Icon ? (
-                          <Icon size={32} />
-                        ) : (
-                          <Smartphone size={32} />
-                        )}
-                      </div>
-                      <p className="mt-5 px-6 text-sm font-medium text-white/60">Screenshots coming soon</p>
+                <div className="w-full max-w-sm rounded-[2rem] border-4 border-white/20 bg-[#061A38] p-2 shadow-2xl">
+                  <div className="flex h-80 flex-col items-center justify-center rounded-[1.6rem] bg-gradient-to-b from-[#073D78] to-[#061A38] text-center">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-[#31C8FF] overflow-hidden">
+                      {product.logo ? (
+                        <img src={product.logo} alt={`${product.name} logo`} className="h-full w-full object-contain" />
+                      ) : Icon ? (
+                        <Icon size={32} />
+                      ) : (
+                        <Smartphone size={32} />
+                      )}
                     </div>
+                    <p className="mt-4 px-4 text-xs font-medium text-white/60">Screenshots coming soon</p>
                   </div>
                 </div>
               )}
@@ -126,35 +166,80 @@ export function ProductDetail({ slug }: { slug: string }) {
         </div>
       </section>
 
-
       <section className="py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-10">
+            <div className="lg:col-span-2 space-y-12">
               <div>
                 <h2 className="text-2xl font-extrabold text-[#061A38]">About {product.name}</h2>
-                <p className="mt-4 text-base leading-relaxed text-[#061A38]/70">{product.description}</p>
+                <p className="mt-4 text-base leading-relaxed text-[#061A38]/75">{product.description}</p>
               </div>
 
               <div>
-                <h2 className="text-2xl font-extrabold text-[#061A38]">Problem it solves</h2>
-                <p className="mt-4 text-base leading-relaxed text-[#061A38]/70">{product.problemSolved}</p>
+                <h2 className="text-2xl font-extrabold text-[#061A38]">The problem it solves</h2>
+                <p className="mt-4 text-base leading-relaxed text-[#061A38]/75">{product.problemSolved}</p>
               </div>
 
-              <div>
-                <h2 className="text-2xl font-extrabold text-[#061A38]">Key features</h2>
-                {product.featuresNote && (
-                  <p className="mt-2 text-sm italic text-[#061A38]/50">{product.featuresNote}</p>
-                )}
-                <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                  {product.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 rounded-2xl border border-[#073D78]/10 bg-[#F5F8FC] p-4">
-                      <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-[#078BFF]" />
-                      <span className="text-sm text-[#061A38]/75">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {product.detailSections && product.detailSections.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-extrabold text-[#061A38]">Features</h2>
+                  <div className="mt-6 grid gap-5 sm:grid-cols-2">
+                    {product.detailSections.map((section) => {
+                      const SIcon = sectionIcons[section.title] ?? CheckCircle2;
+                      return (
+                        <div key={section.title} className="rounded-2xl border border-[#073D78]/10 bg-[#F5F8FC] p-5 transition-shadow hover:shadow-md">
+                          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#078BFF]/10 text-[#078BFF]">
+                            <SIcon size={20} />
+                          </div>
+                          <h3 className="mt-4 text-base font-bold text-[#061A38]">{section.title}</h3>
+                          <p className="mt-2 text-sm leading-relaxed text-[#061A38]/70">{section.body}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {product.benefits && product.benefits.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-extrabold text-[#061A38]">Benefits</h2>
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                    {product.benefits.map((b) => {
+                      const BIcon = benefitIcons[b.title] ?? CheckCircle2;
+                      return (
+                        <div key={b.title} className="flex items-start gap-3 rounded-2xl border border-[#073D78]/10 bg-white p-4 shadow-sm">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#078BFF] to-[#31C8FF] text-white">
+                            <BIcon size={18} />
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-bold text-[#061A38]">{b.title}</h3>
+                            <p className="mt-1 text-sm text-[#061A38]/65">{b.description}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {product.audience && product.audience.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-extrabold text-[#061A38]">Who is Eazy Check for?</h2>
+                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {product.audience.map((a, i) => {
+                      const AIcon = audienceIcons[i % audienceIcons.length];
+                      return (
+                        <li key={a} className="flex items-center gap-3 rounded-2xl border border-[#073D78]/10 bg-[#F5F8FC] p-4">
+                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#078BFF]/10 text-[#078BFF]">
+                            <AIcon size={18} />
+                          </div>
+                          <span className="text-sm text-[#061A38]/75">{a}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
 
               {product.images.length > 0 && (
                 <div>
@@ -164,6 +249,23 @@ export function ProductDetail({ slug }: { slug: string }) {
                       <img key={i} src={src} alt={`${product.name} screenshot ${i + 1}`} className="rounded-2xl border border-[#073D78]/10 object-cover shadow-md" />
                     ))}
                   </div>
+                </div>
+              )}
+
+              {product.features && product.features.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-extrabold text-[#061A38]">Key features</h2>
+                  {product.featuresNote && (
+                    <p className="mt-2 text-sm italic text-[#061A38]/50">{product.featuresNote}</p>
+                  )}
+                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {product.features.map((f) => (
+                      <li key={f} className="flex items-start gap-3 rounded-2xl border border-[#073D78]/10 bg-[#F5F8FC] p-4">
+                        <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-[#078BFF]" />
+                        <span className="text-sm text-[#061A38]/75">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
@@ -198,12 +300,19 @@ export function ProductDetail({ slug }: { slug: string }) {
       <section className="bg-navy-gradient py-16">
         <div className="mx-auto max-w-4xl px-5 text-center lg:px-8">
           <SectionHeading dark eyebrow="MAB TECHNOLOGIES SL" title="Building products that solve real problems" description="Eazy Check is just the beginning. More MAB-owned products are on the way." />
-          <a href="/" className="mt-8 inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
-            <ArrowLeft size={15} /> Back to home
-          </a>
+          {product.closing && (
+            <p className="mt-6 text-base leading-relaxed text-white/75">{product.closing}</p>
+          )}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/#contact" className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#078BFF] to-[#31C8FF] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#078BFF]/30 transition-transform hover:scale-[1.03] active:scale-95">
+              {product.closingCta ?? "Get Started"} <ArrowRight size={15} />
+            </a>
+            <a href="/" className="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
+              <ArrowLeft size={15} /> Back to home
+            </a>
+          </div>
         </div>
       </section>
     </div>
   );
 }
-

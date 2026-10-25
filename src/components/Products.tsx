@@ -104,7 +104,7 @@ function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-1 flex-col p-6 lg:p-8">
-        <p className="text-sm leading-relaxed text-[#061A38]/70">{product.description}</p>
+        <p className="text-sm leading-relaxed text-[#061A38]/70">{product.shortDescription ?? product.description}</p>
 
         <div className="mt-5">
           <h4 className="text-xs font-bold uppercase tracking-wider text-[#078BFF]">
