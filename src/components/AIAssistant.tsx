@@ -3,6 +3,29 @@ import { Bot, Send, X, Sparkles, RefreshCw, AlertCircle, MessageCircle, ChevronD
 import { aiChatEndpoint, isSupabaseConfigured } from "@/lib/supabase";
 import { company } from "@/data/company";
 import { usePrefill } from "@/lib/prefill";
+import { answerFromKnowledge, fallbackAnswer } from "@/lib/knowledge";
+
+const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY as string | undefined;
+const OPENROUTER_MODEL = (import.meta.env.VITE_OPENROUTER_MODEL as string | undefined) || "openai/gpt-4o-mini";
+const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+
+const SYSTEM_PROMPT = `You are the MAB Technologies SL AI assistant. You help visitors understand MAB's services, pricing, and portfolio, and collect project enquiries.
+
+STRICT RULES:
+- Only use the provided business data. Never invent prices, features, demo links, testimonials, or client claims.
+- Prices are in Sierra Leonean leones (SLE) and are starting prices, not guaranteed quotes.
+- Be concise, professional, and helpful. Keep replies under 180 words unless listing pricing.
+- If a visitor wants to start a project, encourage them to use the contact form or WhatsApp.
+- Never claim a demo URL exists if it is not in the provided data.
+- You represent MAB Technologies SL, a Sierra Leone technology company.
+
+BUSINESS DATA (authoritative):
+Company: MAB Technologies SL — "YOU IMAGINE IT. WE BUILD IT." Sierra Leone. Emails: mabtechnologies.co@gmail.com. Phones: +23270451369, +23278968909. WhatsApp: https://wa.me/23270451369.
+Services: Website Development (business sites, landing pages, e-commerce); Web Applications (booking, portals, dashboards, inventory); Mobile Applications (iOS/Android); AI Agents (website assistants, support, knowledge, lead qual); AI Automation (workflow, enquiry processing, integrations).
+Pricing websites: Starter SLE 3,000 (1-3 pages, responsive, basic SEO, social links, 3 months hosting, 1 month maintenance); Business SLE 5,000 (4-7 pages, custom design, contact form, SEO, WhatsApp/social, deployment); Premium SLE 10,000 (premium design, expanded pages, advanced interactions, enhanced SEO, lead-gen, optimization).
+Applications: Web Application from SLE 15,000; Mobile Application from SLE 25,000; Custom Digital Platform from SLE 30,000.
+AI: AI Website Assistant from SLE 5,000; AI Business Automation from SLE 7,500; AI Customer Support Agent from SLE 10,000; Custom AI Agent System from SLE 15,000. (Implementation fees exclude unlimited AI usage, hosting, subscriptions, maintenance.)
+Process: Discover, Design, Build, Launch & Support.`;
 
 interface Message {
   role: "user" | "assistant";
@@ -57,7 +80,37 @@ export function AIAssistant() {
       let replyText: string;
       let isOffline = false;
 
-      if (aiChatEndpoint && isSupabaseConfigured) {
+      // Local knowledge-base answer (always available, no network/secrets needed).
+      const localEntry = answerFromKnowledge(content);
+      const localReply = localEntry ? localEntry.answer : fallbackAnswer;
+
+      if (OPENROUTER_API_KEY) {
+        const res = await fetch(OPENROUTER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+            "HTTP-Referer": window.location.origin,
+            "X-Title": "MAB Technologies Assistant",
+          },
+          body: JSON.stringify({
+            model: OPENROUTER_MODEL,
+            messages: [
+              { role: "system", content: SYSTEM_PROMPT },
+              ...next.slice(-12).map((m) => ({ role: m.role, content: m.content })),
+            ],
+            temperature: 0.4,
+            max_tokens: 600,
+          }),
+        });
+        if (!res.ok) {
+          const errText = await res.text();
+          console.error("OpenRouter error:", res.status, errText);
+          throw new Error(`Request failed (${res.status})`);
+        }
+        const data = await res.json();
+        replyText = data?.choices?.[0]?.message?.content?.trim() || localReply;
+      } else if (aiChatEndpoint && isSupabaseConfigured) {
         const res = await fetch(aiChatEndpoint, {
           method: "POST",
           headers: {
@@ -69,27 +122,29 @@ export function AIAssistant() {
         if (!res.ok) throw new Error(`Request failed (${res.status})`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        replyText = data.reply || "Sorry, I didn't get a response. Please try again.";
-        isOffline = Boolean(data.offline);
+        if (data.offline) {
+          // Backend has no AI key — use the richer local knowledge base.
+          replyText = localReply;
+          isOffline = true;
+        } else {
+          replyText = data.reply || localReply;
+        }
       } else {
-        // No backend configured — fall back to WhatsApp guidance
-        replyText =
-          "I'm not connected to the AI service yet. Please reach us on WhatsApp at +232 70 451 369 or use the contact form below — we'll respond quickly.";
+        // No backend configured — answer from the local knowledge base.
+        replyText = localReply;
         isOffline = true;
       }
 
       setOffline(isOffline);
       setMessages((m) => [...m, { role: "assistant", content: replyText }]);
     } catch (err) {
-      setError(true);
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          content:
-            "I'm having trouble responding right now. You can reach us on WhatsApp at +232 70 451 369 or via the contact form.",
-        },
-      ]);
+      console.error("AI assistant error:", err);
+      // Last-resort: try the knowledge base before showing an error.
+      const entry = answerFromKnowledge(content);
+      const fallback = entry ? entry.answer : fallbackAnswer;
+      setError(false);
+      setOffline(true);
+      setMessages((m) => [...m, { role: "assistant", content: fallback }]);
     } finally {
       setLoading(false);
     }
@@ -141,7 +196,7 @@ export function AIAssistant() {
               <div className="leading-tight">
                 <div className="text-sm font-bold">MAB Assistant</div>
                 <div className="text-[10px] text-white/60">
-                  {offline ? "Limited mode" : "Online · usually replies instantly"}
+                  {offline ? "Knowledge mode" : "Online · usually replies instantly"}
                 </div>
               </div>
             </div>

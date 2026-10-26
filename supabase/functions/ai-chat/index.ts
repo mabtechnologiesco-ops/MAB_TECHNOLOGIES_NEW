@@ -188,7 +188,7 @@ const BUSINESS_CONTEXT = {
       name: "AI Customer Support Agent",
       category: "AI & Automation",
       description: "Concept for an AI support assistant for customer questions and lead qualification.",
-      type: "Concept",
+      type: "Live Showroom",
     },
     {
       name: "3D Interactive Website",
@@ -339,7 +339,10 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    const aiKey = Deno.env.get("OPENAI_API_KEY") || Deno.env.get("AI_API_KEY");
+    const aiKey =
+      Deno.env.get("OPENROUTER_API_KEY") ||
+      Deno.env.get("OPENAI_API_KEY") ||
+      Deno.env.get("AI_API_KEY");
 
     if (!aiKey) {
       const last = recent[recent.length - 1];
@@ -354,30 +357,27 @@ Deno.serve(async (req: Request) => {
       ? `The visitor was viewing the ${body.context.service} service${body.context.package ? ` (${body.context.package} package)` : ""}.`
       : undefined;
 
-    const model = Deno.env.get("AI_MODEL") || "gemini-1.5-flash-latest";
-    const apiUrl = Deno.env.get("AI_API_URL") || `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${aiKey}`;
+    const model = Deno.env.get("AI_MODEL") || Deno.env.get("OPENROUTER_MODEL") || "openai/gpt-4o-mini";
+    const apiUrl = Deno.env.get("AI_API_URL") || "https://openrouter.ai/api/v1/chat/completions";
 
-    // Convert OpenAI-style messages to Gemini format
     const systemPrompt = buildSystemPrompt(contextHint);
-    const contents = recent.map((m) => ({
-      role: m.role === "assistant" ? "model" : "user",
-      parts: [{ text: m.content }],
-    }));
 
     const resp = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${aiKey}`,
+        "HTTP-Referer": "https://mabtechnologies.co",
+        "X-Title": "MAB Technologies Assistant",
       },
       body: JSON.stringify({
-        systemInstruction: {
-          parts: [{ text: systemPrompt }],
-        },
-        contents,
-        generationConfig: {
-          temperature: 0.4,
-          maxOutputTokens: 600,
-        },
+        model,
+        messages: [
+          { role: "system", content: systemPrompt },
+          ...recent.map((m) => ({ role: m.role, content: m.content })),
+        ],
+        temperature: 0.4,
+        max_tokens: 600,
       }),
     });
 
@@ -393,7 +393,7 @@ Deno.serve(async (req: Request) => {
 
     const data = await resp.json();
     const reply =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
+      data?.choices?.[0]?.message?.content?.trim() ||
       fallbackReply(recent[recent.length - 1]?.content || "");
 
     return new Response(
